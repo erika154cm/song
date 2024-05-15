@@ -1,0 +1,143 @@
+* {
+    margin: 0;
+    padding: 0;
+  }
+
+  header{
+    height: 60px;
+    background-color: #D5D5D5;
+    z-index: 1; /* 背景要素よりも背面に表示するためにz-indexを設定 */
+  }
+  
+  .first-block {
+    background-image: url("/assets/image1.jpg");
+    background-size: cover;
+    width: 100%;
+    height: 700px;
+
+}
+.center {
+    position: absolute;
+    top: 50%;
+    left: 75%; /* 25%右寄りに配置 */
+    transform: translate(-50%, -50%);
+    font-size: 45px; /* フォントサイズを24ピクセルに設定 */
+    color: #ffffff;
+    font-family: 'MS Mincho', sans-serif;
+    background-size: cover; /* 背景画像を要素にカバーさせる */
+    background-color: rgba(0, 0, 0, 0.5); /* 白色の背景色を透明度0.5で設定 */
+    padding: 10px; /* 余白を追加して、テキストが見やすくなるようにします */
+    width: 35%; /* 幅を調整 */
+    text-align: right;
+}
+
+   
+  h1 {
+    font-size: 40px;
+    font-family: 'MS Mincho', sans-serif;
+    color: #444;
+  }
+
+  h2 {
+    font-size: 30px;
+    font-family: 'MS Mincho', sans-serif;
+    color: #444;
+  }
+  
+  h3 {
+    font-size: 20px;
+    font-family: 'MS Mincho', sans-serif;
+    color: #444;
+  }
+  
+  .second-block {
+    height: 500px;
+    background-color: #ffffff;
+    padding: 30px; /* 余白を追加して、テキストが見やすくなるようにします */
+  }
+  
+  .third-block h3 {
+    width: 100%; /* 見出しを横幅いっぱいに広げます */
+    margin-bottom: 20px; /* 下部のマージンを追加します */
+}
+
+  .third-block {
+    height: auto; /* 高さを自動に設定して可変にします */
+    background-color: #ffffff;
+    padding: 30px; /* 余白を追加して、テキストが見やすくなるようにします */
+    display: flex; /* 子要素をフレックスボックスとして配置します */
+    flex-wrap: wrap; /* 要素が行を超える場合に折り返します */
+    justify-content: flex-start; /* 子要素を左揃えに配置します */
+    align-items: flex-start; /* 子要素を上揃えに配置します */
+}
+
+.post-container {
+    display: flex; /* 投稿といいねを横並びにします */
+    flex-direction: column; /* 子要素を縦に配置します */
+    }
+
+/* 各投稿のスタイル */
+.song {
+    margin: 30px; /* 各投稿の下にマージンを追加します */
+}
+
+.like {
+    margin-left: auto; /* 右寄せにします */
+    margin-top: 5px; /* いいねの上にマージンを追加します */
+}
+
+.index-page .song {
+    transition: background-color 2.0s ease, margin 2.0s ease; /* 背景色とマージンの変化が0.3秒かけてゆっくり行われるように設定 */
+  }
+
+.index-page .song:hover {
+    background-color: rgba(211, 211, 211, 0.448); /* マウスをかざしたときの背景色を設定 */
+    margin: 10px;
+    padding: 1em;
+  }
+
+  .fourth-block {
+    height: 500px;
+    background-color: #ffffff;
+    padding: 30px; /* 余白を追加して、テキストが見やすくなるようにします */
+  }
+  
+  footer{
+    height: 50px;
+    background-color: #ffffff;
+  }
+
+  .header-nav {
+    background-color: #ffffff;
+    position: fixed;
+    height: 60px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  nav {
+    margin-right: 5%;
+  }
+
+  a {
+    color: #444;
+    text-decoration: none;
+  }
+  
+  a:hover {
+    color: rgba(0, 21, 116, 0.171);
+  }
+
+footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  height: 50px;
+  background-color: #ffffff;
+  font-size: 15px;
+  color: #444;
+}

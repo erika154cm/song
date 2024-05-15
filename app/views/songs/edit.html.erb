@@ -1,0 +1,73 @@
+<%= form_for @song do |f| %>
+
+    <strong>曲の名前:</strong>
+    <div class="field">
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+   </div>
+   <strong>アーティスト名:</strong>
+  <div class="field">
+  <%= f.label :aritist %>
+  <%= f.text_field :aritist %>
+  </div>
+  <strong>リリース年:</strong>
+  <div class="field">
+    <%= f.label :year %>
+    <%= f.text_field :year %>
+  </div>
+  <strong>作詞者:</strong>
+  <div class="field">
+    <%= f.label :about %>
+    <%= f.text_field :about %>
+  </div>
+  <strong>作曲家:</strong>
+  <div class="field">
+    <%= f.label :composer %>
+    <%= f.text_field :composer %>
+  </div>
+  <strong>この曲はどんな曲？:</strong>
+  <div class="field">
+ <%= f.label :song_type  %>
+ <%= f.select :song_type,
+ [["今度歌いたい🎤", "今度歌いたい🎤"],
+  ["盛り上がった👆", "盛り上がった👆"],
+  ["場が冷めた👎", "場が冷めた👎"],
+  ["分からなかった🥲", "分からなかった🥲"]],
+  include_blank: "選択して下さい" %>
+ </div>
+ 
+  <strong>年齢:</strong>
+  <div class="field">
+<%= f.label :age %>
+<%= f.select :age,
+[["10歳未満", "10歳未満"],
+ ["10代", "10代"],
+ ["20代", "20代"],
+ ["30代", "30代"],
+ ["40代", "40代"],
+ ["50代", "50代"],
+ ["60代", "60代"],
+ ["70代", "70代"],
+ ["80代", "80代"],
+ ["90代以上", "90代以上"]],
+ include_blank: "選択して下さい" %>
+</div>
+
+<div class='form-group'>
+        <%= f.collection_check_boxes(:tag_ids, Tag.all, :id, :name) do |tag| %>
+            <div class='form-check'>
+                <%= tag.label class: 'form-check-label' do %>
+                    <%= tag.check_box class: 'form-check-input' %>
+                    <%= tag.text %>
+                <% end %>
+            </div>
+        <% end %>
+    </div>
+
+<div class="field">
+    <%= f.label :youtube_url %>
+    <%= f.text_field :youtube_url, size: 140 %>
+  </div>
+
+    <%= f.submit "編集する" %>
+  <% end %>

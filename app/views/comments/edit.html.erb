@@ -1,0 +1,6 @@
+<h3>コメントを編集</h3>
+<%= form_with(model: [@song, @comment], local: true) do |f| %>
+  <%= f.label :content, "コメント内容" %>
+  <%= f.text_area :content %>
+  <%= f.submit "更新する" %>
+<% end %>

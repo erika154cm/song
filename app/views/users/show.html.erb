@@ -1,0 +1,41 @@
+<h2><%= @user.name %> のユーザーページ</h2>
+<h2>名前: <%= @user.name %></h2>
+<% if current_user == @user %> <!-- ログインユーザーと表示されているユーザーが同じかどうかを確認 -->
+  <h3>メールアドレス: <%= @user.email %></h3>
+<% end %>
+<%= image_tag @user.image_url, size: "250x200" if @user.image? %>
+
+<h4>ユーザーの投稿一覧</h4>
+<% @songs.each do |t| %>
+  <div>
+    <%= link_to t.name, t %> <!-- 投稿のタイトルとリンク -->
+  </div>
+<% end %>
+
+<h4>ユーザーがいいねした投稿一覧</h4>
+<% @liked_songs.each do |t| %>
+  <div>
+    <%= link_to t.name, t %> <!-- いいねした投稿のタイトルとリンク -->
+    <% like = t.likes.find_by(user_id: current_user.id) %>
+    <% if like %>
+      <span>(<%= like.created_at.strftime("%Y-%m-%d %H:%M:%S") %>)</span>
+    <% end %>
+  </div>
+<% end %>
+
+<h4>ユーザーがコメントした投稿一覧</h4>
+<% @comments_songs.each do |t| %>
+  <div>
+    <%= link_to t.name, t %> <!-- コメントした投稿のタイトルとリンク -->
+    <% comments = t.comments.find_by(user_id: current_user.id) %>
+    <% if comments %>
+      <span>(<%= comments.created_at.strftime("%Y-%m-%d %H:%M:%S") %>)</span>
+    <% end %>
+  </div>
+<% end %>
+
+
+<%= link_to 'ユーザー情報を編集する', edit_user_path(@user) %><br>
+<%= link_to 'トップページに戻る', songs_path %><br>
+<%= link_to "ユーザー一覧", users_path %>
+<%= button_to 'ログアウト', destroy_user_session_path, method: :delete %>

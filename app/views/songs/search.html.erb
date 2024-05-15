@@ -1,0 +1,22 @@
+<!DOCTYPE html> 
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <title>Karaoke</title>
+  <link rel="stylesheet" type="text/css" href="stylesheets/index.css">
+</head>
+<body class="index-page"> <!-- ここにclassを追加 -->
+
+<header class="header-nav">
+  <%= link_to "karaoke", root_path %>
+
+<div class="fifth-block">
+  <% if @songs.present? %>
+    <h3>検索結果</h3>
+    <% @songs.each do |song| %>
+      <!-- 検索結果を表示するためのコードをここに追加 -->
+    <% end %>
+  <% else %>
+    <p>検索結果が見つかりませんでした。</p>
+  <% end %>
+</div>

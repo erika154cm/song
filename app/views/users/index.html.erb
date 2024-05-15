@@ -1,0 +1,15 @@
+<!DOCTYPE html> 
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <title>user</title>
+  <link rel="stylesheet" type="text/css" href="stylesheets/user index.css">
+</head>
+<body>
+
+<h1>ユーザー一覧</h1>
+<ul>
+  <% @users.each do |user| %>
+    <li><%= link_to user.name, user_path(user) %></li>
+  <% end %>
+</ul>

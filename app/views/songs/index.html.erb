@@ -1,0 +1,136 @@
+<!DOCTYPE html> 
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <title>Karaoke</title>
+  <link rel="stylesheet" type="text/css" href="stylesheets/index.css">
+</head>
+<body class="index-page"> <!-- ここにclassを追加 -->
+
+<header class="header-nav">
+<nav style="text-align: left; font-family: 'MS Mincho', sans-serif;">
+  <%= link_to "きょくえらび", root_path, style: "font-size: 30px;" %>
+</nav>
+
+<nav>
+<% if user_signed_in? %>
+  <%= link_to user_path(current_user.id) do %>
+    <i class="fa-regular fa-user"></i>
+    マイページ
+  <% end %>
+<% else %>
+  <%= link_to "ログイン", new_user_session_path %>
+<% end %>
+</nav>
+
+  <nav>
+  <%= link_to new_song_path do %>
+    <i class="fa-solid fa-pen-nib"></i>
+    新規投稿
+  <% end %>
+  </nav>
+
+  <nav>
+  <%= link_to "#list-page", onclick: "scrollToSection('list-page')" do %>
+  <i class="fa-solid fa-grip"></i> 一覧
+<% end %>
+  </nav>
+
+  <nav>
+  <%= link_to "#search-page", onclick: "scrollToSection('search-page')" do %>
+  <i class="fa-solid fa-magnifying-glass"></i> 検索
+<% end %>
+  </nav>
+
+</header>
+  </header>
+  
+<!--  コンテンツを一旦仮置きする  -->
+<div class="first-block">
+  <img src="/images/image1.jpg">
+  <p class="center">
+  <span style="font-size: 40px; line-height: 1.5;">歌いたい曲の記録・共有</span><br>
+<span style="font-size: 40px; line-height: 1.5;">をみんなでしよう</span><br>
+<span style="font-size: 20px; line-height: 1.5;">自分の歌いたい曲を投稿する</span><br>
+<span style="font-size: 20px; line-height: 1.5;">みんなからコメントが来る</span><br>
+<span style="font-size: 20px; line-height: 1.5;">カラオケで歌う曲が分かる</span>
+
+</div>
+
+<div class="second-block">
+  <% if @rank_songs.present? %>
+    <h3><i class="fa-solid fa-crown"></i> いいねランキング</h3>
+    <div class="rankings">
+      <% @rank_songs.each_with_index do |t, index| %>
+        <!-- ランキング情報の表示 -->
+        <%= "#{index + 1}. " %>
+        <%= image_tag t.image_url %>
+        <%= link_to song_path(t.id) do %>
+        <% end %>
+        <%= link_to t.name, song_path(t.id), style: "line-height: 2.0;" %><i class="fas fa-heart fa-1x" style="color:red;"></i>: <%= t.likes.count %><br>
+      <% end %>
+    </div>
+  <% end %>
+</div>
+
+
+<div class="third-block">
+  <h3 id="list-page"><i class="fa-solid fa-grip"></i> 投稿一覧</h3>
+  <% @songs.each do |t| %>
+    <div class="post-container">
+      <%= link_to song_path(t.id), class: "song" do %>
+        <!-- 各投稿のボックス -->
+        <%= image_tag t.image_url, size: "250x200" if t.image? %>
+        <div class="item"><%= t.name %></div> <!-- 曲名 -->
+        <div class="item"><%= t.aritist %></div> <!-- アーティスト名 -->
+        <div class="item"><%= t.year %></div> <!-- 発表年 -->
+      <% end %>
+      <% if user_signed_in? %>
+        <div class="like">
+          <% if current_user.already_liked?(t) %>
+            <%= link_to song_like_path(id: t.id, song_id: t.id), method: :delete do %>
+              <i class="fas fa-heart fa-1x" style="color:red;"></i><%= t.likes.count %>
+            <% end %>
+          <% else %>
+            <%= link_to song_likes_path(id: t.id, song_id: t.id), method: :post do %>
+              <i class="fas fa-heart fa-1x" style="color:red;"></i><%= t.likes.count %>
+            <% end %>
+          <% end %>
+        </div>
+      <% else %>
+        <div class="like">
+          <i class="fas fa-heart fa-1x" style="color:red;"></i><%= t.likes.count %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>
+
+
+
+
+  <div class="fourth-block">
+  <h3 id="search-page">  <i class="fa-solid fa-magnifying-glass"></i> 投稿を検索</h3>
+ <%= form_tag({controller:"songs",action:"index"}, method: :get) do %>
+   <%= text_field_tag :search %>
+   <%= submit_tag '検索する'  %>
+<% end %>
+
+<%= form_tag({controller:"songs",action:"index"}, method: :get) do %>
+  <% Tag.all.each do |t| %>
+      <li><%= check_box :tag_ids, t.name %><%= t.name %></li>
+  <% end %>
+  <%= submit_tag 'ジャンル検索' %>
+<% end %>
+  </div>
+
+<!--  コンテンツはここまで  -->
+
+  <footer>
+     <small>© 2024 Erika Doi</small>
+  </footer>	
+</body>
+
+
+
+<div class="song-container">

@@ -1,0 +1,75 @@
+<h1><%= @song.name %></h1>
+<div class="song">
+<p><strong>アーティスト:</strong> <%= @song.aritist %></p>
+<p><strong>リリース年:</strong> <%= @song.year %></p>
+<p><strong>作詞者:</strong> <%= @song.about %></p>
+<p><strong>作曲者:</strong> <%= @song.composer %></p>
+<p><strong>曲のタイプ:</strong> <%= @song.song_type %></p>
+<p><strong>ユーザーネーム:</strong> <%= @user_name %></p>
+<p><strong>年齢:</strong> <%= @song.age %></p>
+<p><strong>曲のジャンル:</strong><% @song.tags.each do |tag| %>
+<span><%= tag.name %></span>
+
+<% end %>
+</p>
+  <iframe width="560" height="315" src="https://www.youtube.com/embed/<%= find_youtube_url(@song.youtube_url) %>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+  <p><strong>投稿日時:</strong> <%= @song.created_at.strftime("%Y-%m-%d %H:%M:%S") %></p>
+    <% if user_signed_in? %>
+      <% if current_user.already_liked?(@song) %>
+        <%= link_to song_like_path(@song), method: :delete do %>
+          <i class="fas fa-heart fa-1x" style="color:red;"></i><%= @song.likes.count %>
+        <% end %>
+      <% else %>
+        <%= link_to song_likes_path(@song), method: :post do %>
+          <i class="fas fa-heart fa-1x" style="color:red;"></i><%= @song.likes.count %>
+        <% end %>
+      <% end %>
+    <% else %>
+    <i class="fas fa-heart fa-1x" style="color:red;"></i><%= @song.likes.count %>
+<% end %>
+
+<% if user_signed_in? %>
+    <%= link_to "編集する", edit_song_path(@song.id) %>
+    <% if user_signed_in? && (@song.user == current_user || current_user.admin?) %>
+      <%= link_to "削除する", song_path(@song), method: :delete, data: { confirm: "削除しますか？" } %>
+    <% end %>
+  <% end %>
+</div>
+
+
+<h3>いいねしたユーザー</h3>
+<% @song.liked_users.each do |user| %>
+  ❀<%= link_to user.name, user_path(user) %>
+<% end %>
+
+
+
+<div class="comment-wrapper">
+
+<h3>コメント一覧</h3>
+<% @comments.each do |c| %>
+  <div class="comment">  <!-- スタイルクラスを適用 -->
+  <%= link_to c.user.name, user_path(c.user) unless c.user.blank? %>
+    <br>
+    <%= c.content %>
+    <br>
+    <%= l(c.created_at, format: :default) %>
+    <% if user_signed_in? && c.user == current_user %>
+      <%= link_to "編集", edit_song_comment_path(@song, c) %>  <!-- 編集リンク追加 -->
+    <% end %>
+  </div>
+<% end %>
+
+  <% if user_signed_in? %>
+    <%= form_with(model: [@song, @comment], local: true) do |f| %>
+      <%= f.text_area :content %>
+      <%= button_tag type: "submit" do %>
+        <i class="far fa-comments"></i> コメントする
+      <% end %>
+    <% end %>
+  <% end %>
+  
+</div>
+
+<%= link_to "トップページに戻る", songs_path %>
